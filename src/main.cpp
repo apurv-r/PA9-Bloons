@@ -1,7 +1,7 @@
 #include<SFML/Graphics.hpp>
+//#include<SFML/OpenGL.hpp>
 #include<iostream>
 #include<fstream>
-
 
 #include"includes/Ballon.hpp"
 #include"includes/Tower.hpp"
@@ -13,6 +13,14 @@ int main()
 	float direction = .1;
 
 	sf::RenderWindow window(sf::VideoMode(windowX, windowY), "SFML works!");
+	
+	//Textures Work now
+	std::string s1 = "Resources/testingImage.jpg";
+	sf::Texture tex1;
+	tex1.loadFromFile(s1.c_str());
+	sf::Sprite m_sprite;
+	m_sprite.setPosition(800, 800);
+	m_sprite.setTexture(tex1);
 
 	Balloon b1(1, sf::Vector2f(0, 500));
 	Tower t1(sf::Vector2f(250, 250), 100, 100);
@@ -49,7 +57,9 @@ int main()
 		window.clear();
 		window.draw(t1);
 		t1.visualizeRadius(200, window, b1);
+		t1.update(delta,window);
 		b1.Render(window);
+		window.draw(m_sprite);
 		window.display();
 	}
 

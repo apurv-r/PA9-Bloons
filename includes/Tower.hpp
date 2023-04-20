@@ -1,7 +1,9 @@
 #include<SFML/Graphics.hpp>
 #include<cmath>
 #include<iostream>
+#include<vector>
 
+#include"includes/Dart.hpp"
 
 class Tower : public sf::RectangleShape
 {
@@ -23,6 +25,7 @@ public:
 		std::cout << "Distance: " << distance << std::endl;
 		if (distance < radius)
 		{
+			throwDart(b1);
 			return true;
 		}
 		return false;
@@ -39,4 +42,11 @@ public:
 
 		window.draw(radiusVisual);
 	}
+
+	void update(float delta, sf::RenderWindow& window);
+
+private:
+	void throwDart(Balloon& target);
+
+	std::vector<Dart*> darts;
 };
