@@ -1,0 +1,24 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/sfml-window-d-2.dll
+/sfml-window-2.dll
+/sfml-system-d-2.dll
+/sfml-system-2.dll
+/sfml-network-d-2.dll
+/sfml-network-2.dll
+/sfml-graphics-d-2.dll
+/sfml-graphics-2.dll
+/sfml-audio-d-2.dll
+/sfml-audio-2.dll
+/openal32.dll
+/x64/Debug
+/Dependencies/SFML-2.5.1-windows-vc14-32-bit/SFML-2.5.1
+/Debug
+/.vs/PA9
+/PA9.vcxproj.user
+/PA9.vcxproj.filters
+/PA9.vcxproj
+/PA9.sln
+/Release
