@@ -1,9 +1,10 @@
 #include "includes/Dart.hpp"
 #include"includes/MathHelper.h"
 
-Dart::Dart(float sizeX, float sizeY, float speed, Balloon& target)
+Dart::Dart(float sizeX, float sizeY, float speed, Balloon& target, sf::Vector2f spawnLocation)
 	:sf::RectangleShape(sf::Vector2f(sizeX, sizeY))
 {
+	this->setPosition(spawnLocation);
 	m_speed = speed;
 	m_target = &target;
 }
