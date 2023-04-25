@@ -63,8 +63,10 @@ m_target a Balloon pointer
 <summary> getLives</summary>
 Returns the m_lives varible. Integer value
 </details>
+
 ##### whatLevel
 Returns what is issues as the level instance for the std::vector of Levels. I.e uses the equation defined as: $(mLevel)\over 10$
+
 ### runGame
 First revaluates the m_levelInstance through $(mLevel)\over 10$ Then it checks whether the amount of balloons spawned is equal to the max Balloons. It its true the m_balloonsSpawned to zero and m_totalMoney is added by the number of maxBalloons. Then includes a time check using 
 ```c++
@@ -105,6 +107,7 @@ Adds to the m_totalMoney varible using the inputed value
 <summary> getLevel</summary>
 Returns the m_level varible. Integer value
 </details>
+
 ##### readBalloonFile
 Reads the balloon file in. The File is built like
 | Max Level of Balloon |Max Balloons | delay|
@@ -115,19 +118,25 @@ Reads the balloon file in. The File is built like
 Level of Balloon is also directly related to its health.
 Max Balloons in the number of Balloons to spawn for a given level
 Delay is the time between each Balloon spawn
+
 ### Private values:
+
 ##### struct Level
 holds integer values for maxBalloons and maxLevel, along with a float for the delay. Is where the data from the balloon file is read into.
+
 ##### ints:
 m_lives, m_level, m_levelInstance, m_balloonsSpawned, m_totalMoney
+
 ##### sf namespace Objects:
 Vector2f m_BalloonSpawnLoc
 RenderWindow pointer m_Window
+
 ##### Standard Objects
 vector of Level pointers (m_Levels)
 vector of Tower pointers (m_TowerObjects)
 vector of balloonObjects (m_Balloonobjects)
 chrono::milliseconds m_LastBalloonSpawn (Used to tell how much time has passed between balloon spawing)
+
 #### Deprecated
 void RenderText
 sf::Text m_LevelDisplay
