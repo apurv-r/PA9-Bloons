@@ -64,7 +64,7 @@ m_target a Balloon pointer
 Returns the m_lives varible. Integer value
 </details>
 
-##### whatLevel
+#### whatLevel
 Returns what is issues as the level instance for the std::vector of Levels. I.e uses the equation defined as: $(mLevel)\over 10$
 
 ### runGame
@@ -115,6 +115,7 @@ Reads the balloon file in. The File is built like
 | 5 | 25 | 1000 | 
 | 6 | 25 | 1000 |
 |7|30|1000|
+
 Level of Balloon is also directly related to its health.
 Max Balloons in the number of Balloons to spawn for a given level
 Delay is the time between each Balloon spawn
@@ -162,7 +163,9 @@ First checks if activeItem is set to true. If it is it drasws the m_TowerToPlace
 <summary>giveBackValue</summary>
 if activeItem is true the if the escape key is pressed then it add 100 back to the money varible and then sets activeItem to false.
 </details>
+
 ### Private values:
+
 ##### sf namespace Objects
 <details>
 <summary> Rectangle Shapes</summary>
@@ -207,7 +210,9 @@ Returns the m_display boolean.
 <summary>setDisplayBool</summary>
 Sets the m_display boolean to an inputed value
 </details>
+
 ### Private values:
+
 ##### ints:
 default_Delay, delay, default_DartPower, dartPower, default_Radius, m_radius
 ##### floats:
