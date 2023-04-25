@@ -1,8 +1,14 @@
 #include "includes/Game.hpp"
 
-Game::Game(sf::RenderWindow& window, sf::Vector2f balloonSpawnLoc) :m_Window(&window), m_BalloonSpawnLoc(balloonSpawnLoc)
+Game::Game(sf::RenderWindow& window, sf::Vector2f balloonSpawnLoc, sf::Font font) :m_Window(&window), m_BalloonSpawnLoc(balloonSpawnLoc)
 {
 	srand(time(NULL));
+	m_LevelDisplay.setFont(font);
+	m_LevelDisplay.setFillColor(sf::Color::Red);
+	this->m_LevelDisplay.setString("Null");
+	m_LevelDisplay.setPosition(sf::Vector2f(1500, 0));
+
+	m_totalMoney = 100;
 	Tower* t1 = new Tower(sf::Vector2f(250, 350), 100, 100, 250);
 	m_TowerObjects.push_back(t1);
 	m_level = 0, m_lives = 200;
@@ -19,17 +25,33 @@ Game::~Game()
 
 void Game::runGame(float delta)
 {
-	int l_balloonsSpawned = 0;
-	int levelInstance = m_level / 10;
-
-	std::chrono::milliseconds t_CurTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch());
-	std::cout << (t_CurTime.count() - m_LastBalloonSpawn.count()) << std::endl;
-	if ((t_CurTime.count() - m_LastBalloonSpawn.count()) > m_Levels[levelInstance]->delay)
+	if (m_level / 10 >= m_Levels.size() - 1) {}
+	else
 	{
-		m_BalloonObjects.push_back(new Balloon(rand() % m_Levels[levelInstance]->maxLevel, m_BalloonSpawnLoc));
+		m_levelInstance = m_level / 10;
+	}
+
+	if (m_balloonsSpawned == m_Levels[m_levelInstance]->maxBalloons)
+	{
+		m_level++;
+		m_balloonsSpawned = 0;
+		m_totalMoney += m_Levels[m_levelInstance]->maxBalloons;
+	}
+	std::chrono::milliseconds t_CurTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch());
+	//std::cout << (t_CurTime.count() - m_LastBalloonSpawn.count()) << std::endl;
+	if ((t_CurTime.count() - m_LastBalloonSpawn.count()) > m_Levels[m_levelInstance]->delay)
+	{
+		m_BalloonObjects.push_back(new Balloon(rand() % m_Levels[m_levelInstance]->maxLevel, m_BalloonSpawnLoc));
 		m_LastBalloonSpawn = t_CurTime;
+		this->m_balloonsSpawned++;
 	}
 	
+	//Should not be dependent on the balloons being spawned
+	for (Tower* l_tower : m_TowerObjects)
+	{
+		l_tower->update(delta, *m_Window);
+	}
+
 	int l_balloonLoc = 0;
 	for (Balloon* l_balloon : m_BalloonObjects)
 	{
@@ -44,23 +66,52 @@ void Game::runGame(float delta)
 		}
 		else
 		{
+			m_totalMoney += m_BalloonObjects.at(l_balloonLoc)->getInitHealth();
+			Balloon* pTemp = m_BalloonObjects.at(l_balloonLoc);
 			m_BalloonObjects.erase(m_BalloonObjects.begin() + l_balloonLoc);
+			delete pTemp;
 		}
 
 		l_balloonLoc++;
 	}
-	//Should not be dependent on the balloons being spawned
-	for (Tower* l_tower : m_TowerObjects)
-	{
-		l_tower->update(delta, *m_Window);
-	}
 
-	if (m_level / 10 >= m_Levels.size()) {}
+	if (m_level / 10 >= m_Levels.size()-1) {}
 	else
 	{
-		levelInstance = m_level / 10;
+		m_levelInstance = m_level / 10;
 	}
+
+	//renderText(*m_Window,l_msg);
+	//Bad line but why?
 	
+	//(*m_Window).draw(m_livesDisplay);
+	
+}
+
+void Game::spawnTower(sf::Vector2f const & pos)
+{
+	Tower* t_tower = new Tower(pos, 100, 100, 250);
+	m_TowerObjects.push_back(t_tower);
+}
+
+void Game::runThroughTowers()
+{
+	for (Tower* t : m_TowerObjects)
+	{
+		if (t->getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(*m_Window))))
+		{
+			t->setDisplayBool(true);
+		}
+		else
+		{
+			t->setDisplayBool(false);
+		}
+	}
+}
+
+void Game::renderText(sf::RenderWindow& window,std::string msg)
+{
+//	window.draw(m_livesDisplay);
 }
 
 void Game::readBalloonFile(std::string filePath)

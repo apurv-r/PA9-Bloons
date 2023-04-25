@@ -3,11 +3,14 @@
 //Check this code most likely inaccurate
 void Tower::update(float delta, sf::RenderWindow & window)
 {
+	if (m_display)
+	{
+		visualizeRadius(window);
+	}
 	for (int i = 0; i < darts.size(); i++)
 	{
 		if (darts[i]->isCollided())
 		{
-			std::cout << "Collision" << std::endl;
 			//Deletes the data that is the cause of a collision
 			//should this check whether the balloon is dead
 			//Well Dart should == nullptr and as such should destroy itself
@@ -31,6 +34,7 @@ void Tower::addBalloonToList(Balloon& balloon)
 Tower::Tower(sf::Vector2f pos, float xSize, float ySize, float radius)
 	:sf::RectangleShape(sf::Vector2f(xSize, ySize)), m_pos(pos), m_Radius(radius)
 {
+	m_display = false;
 	this->setPosition(pos);
 	this->setFillColor(sf::Color(255, 0, 255));
 	m_lastThrownDart = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch());
@@ -42,25 +46,23 @@ bool Tower::isInRadius(sf::Vector2f otherPos, Balloon& b1)
 	//Way to many )
 	//Math is now correct plus adds 10 pixels to make it seem more visually appealing
 	float distance = sqrt(abs((pow(((this->getPosition().x - (this->getSize().x / 2)) - (b1.getPos().x - b1.m_Object.getRadius() + 25)), 2) + (pow(((this->getPosition().y - (this->getSize().y / 2)) - (b1.getPos().y - b1.m_Object.getRadius() + 25)), 2)))));
-	std::cout << "Distance: " << distance << std::endl;
+	//std::cout << "Distance: " << distance << std::endl;
 	if (distance < m_Radius)
 	{
+		addBalloonToList(b1);
 		throwDart(b1);
 		return true;
 	}
 	return false;
 }
 //Draws the radius 
-void Tower::visualizeRadius(sf::RenderWindow& window, Balloon& b1)
+void Tower::visualizeRadius(sf::RenderWindow& window)
 {
-	sf::CircleShape radiusVisual(m_Radius, 30);
-	radiusVisual.setPosition(this->getPosition().x - (m_Radius / 2) - (this->getSize().x / 2), this->getPosition().y - (m_Radius / 2) - (this->getSize().y / 2));
-	if (isInRadius(b1.getPos(), b1))
-		radiusVisual.setFillColor(sf::Color(100, 0, 0));
-	else
+		sf::CircleShape radiusVisual(m_Radius, 30);
+		
+		radiusVisual.setPosition(this->getPosition().x - (m_Radius / 2) - (this->getSize().x / 2), (this->getPosition().y - (m_Radius / 2) - (this->getSize().y / 2)));
 		radiusVisual.setFillColor(sf::Color(0, 100, 0));
-
-	window.draw(radiusVisual);
+		window.draw(radiusVisual);
 }
 
 

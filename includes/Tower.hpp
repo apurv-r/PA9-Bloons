@@ -1,3 +1,6 @@
+#ifndef TOWER_CLASS_h
+#define TOWER_CLASS_h
+
 #include<SFML/Graphics.hpp>
 #include<cmath>
 #include<iostream>
@@ -25,11 +28,15 @@ public:
 	bool isInRadius(sf::Vector2f otherPos, Balloon& b1);
 
 	//Draws the radius 
-	void visualizeRadius(sf::RenderWindow  & window, Balloon& b1);
+	void visualizeRadius(sf::RenderWindow  & window);
 
 	void update(float delta, sf::RenderWindow  & window);
 
 	void addBalloonToList(Balloon& balloon);
+
+	bool getDisplayBool() { return m_display; };
+
+	void setDisplayBool(bool newDisplay) { m_display = newDisplay; };
 
 private:
 
@@ -39,6 +46,8 @@ private:
 	int dartPower;
 	float default_Radius;
 	float m_Radius;
+
+	bool m_display;
 
 
 	void throwDart(Balloon& target);
@@ -51,3 +60,5 @@ private:
 
 	std::vector<Balloon*> m_BalloonsInRange;
 };
+
+#endif

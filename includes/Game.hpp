@@ -13,7 +13,7 @@
 class Game
 {
 public:
-	Game(sf::RenderWindow& window, sf::Vector2f balloonSpawnLoc);
+	Game(sf::RenderWindow& window, sf::Vector2f balloonSpawnLoc, sf::Font font);
 
 	~Game();
 
@@ -23,7 +23,20 @@ public:
 
 	void runGame(float delta);
 
+	void spawnTower(sf::Vector2f const & pos);
+
+	int getMoney() { return m_totalMoney; };
+
+	void subtractMoney(int value) { m_totalMoney -= value; };
+
+	void addMoney(int value) { m_totalMoney += value; };
+
+	void runThroughTowers();
+
+	int getLevel() { return this->m_level; };
+
 private:
+	void renderText(sf::RenderWindow& window,std::string msg);
 	void readBalloonFile(std::string filePath);
 
 	struct Level
@@ -35,6 +48,12 @@ private:
 	
 	int m_lives;
 	int m_level;
+	int m_levelInstance;
+
+	int m_balloonsSpawned = 0;
+
+	int m_totalMoney;
+
 	sf::Vector2f m_BalloonSpawnLoc;
 
 	std::vector<Level*> m_Levels;
@@ -44,6 +63,8 @@ private:
 	sf::RenderWindow* m_Window;
 	std::vector<Tower*> m_TowerObjects;
 	std::vector<Balloon*> m_BalloonObjects;
+
+	sf::Text m_LevelDisplay;
 };
 
 #endif

@@ -1,4 +1,38 @@
-# ChangeLog
+## 4/24/2023 
+### Window:
+Expanded the size of the window to 2000x2000 subject to change.
+(See TODO)
+### Game:
+Created SpawnTower Function. Used to create a tower object at a position. Used in the Shop class. Name of Function is subject to change. Fixed m_levelInstance so that now it wont crash when your level/10 is greator than the m_levels.size(). Money is now handled in the game class
+### Balloon: 
+Added a delta time multiplication for the moveTowards function call addition along with some other minor fixes to data values to better compensate to the changes in window size and to the delta time multiplication
+### Shop
+This is the big change. Shop takes in a Game reference and stores it in its own pointer. RenderShop only renders the item you want to purchase if the activeItem is set to true. Thus normally it will only render the UI.
+giveBackValue gives back the value that you purchased the tower for to you and gets rid of the tower being instantiated. 
+HandleMouseInput handles the mouse input using sf::Event::MouseButtonRelease[^1] The function works by first checking if enough time has passed between purchases(Not required anymore because of MouseButtonRelease see for more information[^1]).  Then checks if the object is in the global bounds of the button object 
+```c++
+if (monkeyButton.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window))))
+```
+If the object can be purchased then activeItem is set to true. This allows for it to be draw later. Sets the texture to be used, and will follow the mouse around. Also takes the money away through the Game pointer that it holds. Giving back the money is also possible through the function giveBackValue which is written as such
+```c++
+if (this->activeItem)
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		{
+			this->m_game->addMoney(100);
+			this->activeItem = false;
+		}
+	}
+```
+
+### Text and Money
+Text now works except for in the game class where it breaks down and throws a .dll error. Fixing it seems like it will take forever so I'm not going to. So the outputting text relating to the game class is handled in main.cpp
+### Frame rate and other quality of Life
+setFramerateLimit allows you to set a limit to the frame rate. This caps it and helps run smoother overall.
+## TODO
+Allow for things to be dependent on the size of the window. Things from the previous TODO that were not addressed with this.
+
+[^1]:Reason behind using isMouseButtonReleased is that while only one frame of mouse button being released is possible many frames can be taken up for isMouseButtonPressed. So in basically any video game setting or any application setting you should use isMouseButtonReleased. 
 ## 4/24/2023 
 ### Balloon:
 Balloon inherits the properties of the SpriteManager Class. Also now holds a speed and health, aswell as the coordinates that it needs to go to.
