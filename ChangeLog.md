@@ -31,6 +31,7 @@ Text now works except for in the game class where it breaks down and throws a .d
 setFramerateLimit allows you to set a limit to the frame rate. This caps it and helps run smoother overall.
 ## TODO
 Allow for things to be dependent on the size of the window. Things from the previous TODO that were not addressed with this.
+Use Mermaid to create flow charts to display polymorphism
 
 [^1]:Reason behind using isMouseButtonReleased is that while only one frame of mouse button being released is possible many frames can be taken up for isMouseButtonPressed. So in basically any video game setting or any application setting you should use isMouseButtonReleased. 
 ## 4/24/2023 
