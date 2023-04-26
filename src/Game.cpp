@@ -7,10 +7,9 @@ Game::Game(sf::RenderWindow& window, sf::Vector2f balloonSpawnLoc, sf::Font font
 	m_LevelDisplay.setFillColor(sf::Color::Red);
 	this->m_LevelDisplay.setString("Null");
 	m_LevelDisplay.setPosition(sf::Vector2f(1500, 0));
-
 	m_totalMoney = 100;
-	Tower* t1 = new Tower(sf::Vector2f(250, 350), 100, 100, 250);
-	m_TowerObjects.push_back(t1);
+	Monkey* m1 = new Monkey(sf::Vector2f(250, 350), 2,500);
+	m_TowerObjects.push_back(m1);
 	m_level = 0, m_lives = 200;
 	m_LastBalloonSpawn = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch());
 	readBalloonFile("Resources/Balloon.txt");
@@ -41,7 +40,7 @@ void Game::runGame(float delta)
 	//std::cout << (t_CurTime.count() - m_LastBalloonSpawn.count()) << std::endl;
 	if ((t_CurTime.count() - m_LastBalloonSpawn.count()) > m_Levels[m_levelInstance]->delay)
 	{
-		m_BalloonObjects.push_back(new Balloon(rand() % m_Levels[m_levelInstance]->maxLevel, m_BalloonSpawnLoc));
+		m_BalloonObjects.push_back(new Balloon(rand() % m_Levels[m_levelInstance]->maxLevel + 1	, m_BalloonSpawnLoc));
 		m_LastBalloonSpawn = t_CurTime;
 		this->m_balloonsSpawned++;
 	}
@@ -90,7 +89,7 @@ void Game::runGame(float delta)
 
 void Game::spawnTower(sf::Vector2f const & pos)
 {
-	Tower* t_tower = new Tower(pos, 100, 100, 250);
+	Tower* t_tower = new Tower(pos, 100, 100);
 	m_TowerObjects.push_back(t_tower);
 }
 

@@ -31,8 +31,8 @@ void Tower::addBalloonToList(Balloon& balloon)
 	m_BalloonsInRange.push_back(&balloon);
 }
 
-Tower::Tower(sf::Vector2f pos, float xSize, float ySize, float radius)
-	:sf::RectangleShape(sf::Vector2f(xSize, ySize)), m_pos(pos), m_Radius(radius)
+Tower::Tower(sf::Vector2f pos, float xSize, float ySize)
+	:sf::RectangleShape(sf::Vector2f(xSize, ySize)), m_pos(pos)
 {
 	m_display = false;
 	this->setPosition(pos);
@@ -47,7 +47,7 @@ bool Tower::isInRadius(sf::Vector2f otherPos, Balloon& b1)
 	//Math is now correct plus adds 10 pixels to make it seem more visually appealing
 	float distance = sqrt(abs((pow(((this->getPosition().x - (this->getSize().x / 2)) - (b1.getPos().x - b1.m_Object.getRadius() + 25)), 2) + (pow(((this->getPosition().y - (this->getSize().y / 2)) - (b1.getPos().y - b1.m_Object.getRadius() + 25)), 2)))));
 	//std::cout << "Distance: " << distance << std::endl;
-	if (distance < m_Radius)
+	if (distance < default_Radius)
 	{
 		addBalloonToList(b1);
 		throwDart(b1);
@@ -58,11 +58,11 @@ bool Tower::isInRadius(sf::Vector2f otherPos, Balloon& b1)
 //Draws the radius 
 void Tower::visualizeRadius(sf::RenderWindow& window)
 {
-		sf::CircleShape radiusVisual(m_Radius, 30);
-		
-		radiusVisual.setPosition(this->getPosition().x - (m_Radius / 2) - (this->getSize().x / 2), (this->getPosition().y - (m_Radius / 2) - (this->getSize().y / 2)));
-		radiusVisual.setFillColor(sf::Color(0, 100, 0));
-		window.draw(radiusVisual);
+	sf::CircleShape radiusVisual(default_Radius, 30);
+	
+	radiusVisual.setPosition(this->getPosition().x - (default_Radius / 2) - (this->getSize().x / 2), (this->getPosition().y - (default_Radius / 2) - (this->getSize().y / 2)));
+	radiusVisual.setFillColor(sf::Color(0, 100, 0));
+	window.draw(radiusVisual);
 }
 
 

@@ -21,14 +21,14 @@
 class Tower : public sf::RectangleShape
 {
 public:
-	Tower(sf::Vector2f pos, float xSize, float ySize, float radius);
+	Tower(sf::Vector2f pos, float xSize, float ySize);
 
 	//Checks using distance formula which is totally no correct
 	//However gets an expected result
-	bool isInRadius(sf::Vector2f otherPos, Balloon& b1);
+	virtual bool isInRadius(sf::Vector2f otherPos, Balloon& b1);
 
 	//Draws the radius 
-	void visualizeRadius(sf::RenderWindow  & window);
+	virtual void visualizeRadius(sf::RenderWindow  & window);
 
 	void update(float delta, sf::RenderWindow  & window);
 
@@ -38,22 +38,22 @@ public:
 
 	void setDisplayBool(bool newDisplay) { m_display = newDisplay; };
 
-private:
+	//Public so that they can be used as default values in function declarations
+	static const int default_Delay = 800;
+	static const int default_DartPower = 1;
+	static const int default_Radius = 250.0f;
 
-	int default_Delay = 800;
-	int delay;
-	int default_DartPower = 1;
-	int dartPower;
-	float default_Radius;
+protected:
+
+	int m_delay;
+	int m_dartPower;
 	float m_Radius;
 
 	bool m_display;
 
-
-	void throwDart(Balloon& target);
-
 	sf::Vector2f m_pos;
 
+	void throwDart(Balloon& target);
 
 	std::vector<Dart*> darts;
 	std::chrono::milliseconds m_lastThrownDart;
