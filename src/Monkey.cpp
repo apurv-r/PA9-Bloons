@@ -10,6 +10,7 @@ bool Monkey::isInRadius(sf::Vector2f otherPos, Balloon& b1)
 	{
 		addBalloonToList(b1);
 		this->throwDart(b1);
+		this->m_LastBalloonPos = m_BalloonsInRange[0]->getPos();
 		return true;
 	}
 	return false;
@@ -46,6 +47,13 @@ void Monkey::update(float delta, sf::RenderWindow& window)
 	{
 		d->moveTowards(delta);
 		window.draw(*d);
+	}
+	//Rotate towards target
+	if (m_BalloonsInRange.size() >0)
+	{
+		float angle = 180 /3.14* MathHelper::MathHelp::dot(MathHelper::MathHelp::normalize(this->m_Object.getPosition()), MathHelper::MathHelp::normalize(this->m_LastBalloonPos));
+		std::cout << angle << std::endl;
+		this->m_Object.setRotation(angle);
 	}
 	this->Render(window);
 	//window.draw(this->m_Object);

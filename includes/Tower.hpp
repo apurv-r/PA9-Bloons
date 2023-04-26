@@ -51,6 +51,8 @@ protected:
 
 	bool m_display;
 
+	sf::Vector2f m_LastBalloonPos;
+
 	void throwDart(Balloon& target);
 
 	std::vector<Dart*> darts;

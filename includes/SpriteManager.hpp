@@ -8,8 +8,9 @@ public:
 	{
 		m_Texture.loadFromFile(imageFilePath);
 		m_Object = sf::Sprite(m_Texture, sf::Rect<int>(sf::Vector2i(pos), sf::Vector2i(100, 100)));
-		m_Object.setOrigin(sf::Vector2f(50, 50));
 		m_Object.setTexture(m_Texture);
+		m_Object.setTextureRect(sf::IntRect(sf::Vector2i(pos), sf::Vector2i(100, 100)));
+		m_Object.setOrigin(sf::Vector2f(50, 50));
 		m_Object.setPosition(m_Pos);
 	};
 

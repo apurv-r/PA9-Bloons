@@ -7,19 +7,22 @@ void Tower::update(float delta, sf::RenderWindow & window)
 	{
 		visualizeRadius(window);
 	}
-	for (int i = 0; i < darts.size(); i++)
+	int i = 0;
+	for (Dart* d : darts)
 	{
-		if (darts[i]->isCollided())
+		if (d->isCollided())
 		{
 			//Deletes the data that is the cause of a collision
 			//should this check whether the balloon is dead
 			//Well Dart should == nullptr and as such should destroy itself
-			darts[i]->getTarget()->changeHealth(1);
+			d->getTarget()->changeHealth(1);
 			darts.erase(darts.begin() + i);
 		}
-	}
-	for (Dart* d : darts)
-	{
+		if (d->getTarget() == nullptr)
+		{
+			darts.erase(darts.begin() + i);
+		}
+		i++;
 		d->moveTowards(delta);
 		window.draw(*d);
 	}

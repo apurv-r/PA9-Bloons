@@ -4,6 +4,7 @@
 #include<fstream>
 
 #include"includes/Game.hpp"
+#include"includes/pauseMenu.hpp"
 #include"includes/Shop.hpp"
 
 
@@ -24,7 +25,7 @@ int main()
 	sf::Texture tex1;
 	tex1.loadFromFile(s1.c_str());
 	sf::Sprite m_sprite;
-	m_sprite.setPosition(1800, 1800);
+	m_sprite.setPosition(windowX - (windowX/10), windowY - (windowY/10));
 	m_sprite.setTexture(tex1);
 	
 	sf::Font font;
@@ -32,12 +33,12 @@ int main()
 	sf::Text livesText;
 	livesText.setFont(font);
 	livesText.setFillColor(sf::Color::Red);
-	livesText.setPosition(sf::Vector2f(1500, 0));
+	livesText.setPosition(sf::Vector2f(windowX - (windowX/4), 0));
 
 	sf::Text levelText;
 	levelText.setFont(font);
 	levelText.setFillColor(sf::Color::Red);
-	levelText.setPosition(sf::Vector2f(1000, 0));
+	levelText.setPosition(sf::Vector2f(windowX - (windowX/2), 0));
 
 	/*sf::RectangleShape menu(sf::Vector2f(300, 2000));
 	menu.setPosition(1700, 0);
@@ -49,7 +50,7 @@ int main()
 
 	Game game(window, sf::Vector2f(-100, 500),font); 
 	Shop shop(game, &font);
-
+	PauseMenu pause(window);
 
 	int coordIndex = 0;
 	sf::Clock clock;
@@ -74,8 +75,14 @@ int main()
 					break;
 
 				case sf::Event::MouseButtonReleased:
-					game.runThroughTowers();
-					shop.handleMouseInput(window);
+					if (!pause.isScreenPaused())
+					{
+						game.runThroughTowers();
+						shop.handleMouseInput(window);
+						pause.handleMouseClick(window);
+					}
+					else
+						pause.handleMouseClick(window);
 				}
 			}
 
@@ -92,12 +99,16 @@ int main()
 			}
 
 			window.clear();
-			//Issue this gets run infinitly so needs to be changed
-			game.runGame(delta);
-			shop.update(window);
-			window.draw(m_sprite);
-			window.draw(livesText);
-			window.draw(levelText);
+			if (!pause.isScreenPaused())
+			{
+				game.runGame(delta);
+				shop.update(window);
+				window.draw(m_sprite);
+				window.draw(livesText);
+				window.draw(levelText);
+			}
+
+			pause.update(window);
 			window.display();
 		}
 	}
