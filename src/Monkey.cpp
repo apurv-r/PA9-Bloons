@@ -1,10 +1,10 @@
-#include "Monkey.hpp"
+#include "includes/Monkey.hpp"
 
 bool Monkey::isInRadius(sf::Vector2f otherPos, Balloon& b1)
 {
 	//Way to many )
 	//Math is now correct plus adds 10 pixels to make it seem more visually appealing
-	float distance = sqrt(abs((pow(((this->getPosition().x - (this->getSize().x / 2)) - (b1.getPos().x - b1.m_Object.getRadius() + 25)), 2) + (pow(((this->getPosition().y - (this->getSize().y / 2)) - (b1.getPos().y - b1.m_Object.getRadius() + 25)), 2)))));
+	float distance = sqrt(abs((pow(((this->m_Object.getPosition().x) - (b1.getPos().x)), 2) + (pow((this->m_Object.getPosition().y) - (b1.getPos().y), 2)))));
 	//std::cout << "Distance: " << distance << std::endl;
 	if (distance < m_Radius)
 	{
@@ -19,8 +19,34 @@ bool Monkey::isInRadius(sf::Vector2f otherPos, Balloon& b1)
 void Monkey::visualizeRadius(sf::RenderWindow& window)
 {
 	sf::CircleShape radiusVisual(m_Radius, 30);
-
-	radiusVisual.setPosition(this->getPosition().x - (m_Radius / 2) - (this->getSize().x / 2), (this->getPosition().y - (m_Radius / 2) - (this->getSize().y / 2)));
+	radiusVisual.setOrigin(sf::Vector2f(m_Radius-m_Xsize/2, m_Radius-m_YSize/2));
+	radiusVisual.setPosition(this->m_Object.getPosition().x, (this->m_Object.getPosition().y));
 	radiusVisual.setFillColor(sf::Color(0, 100, 0));
 	window.draw(radiusVisual);
+}
+
+void Monkey::update(float delta, sf::RenderWindow& window)
+{
+	if (m_display)
+	{
+		visualizeRadius(window);
+	}
+	for (int i = 0; i < darts.size(); i++)
+	{
+		if (darts[i]->isCollided())
+		{
+			//Deletes the data that is the cause of a collision
+			//should this check whether the balloon is dead
+			//Well Dart should == nullptr and as such should destroy itself
+			darts[i]->getTarget()->changeHealth(1);
+			darts.erase(darts.begin() + i);
+		}
+	}
+	for (Dart* d : darts)
+	{
+		d->moveTowards(delta);
+		window.draw(*d);
+	}
+	this->Render(window);
+	//window.draw(this->m_Object);
 }

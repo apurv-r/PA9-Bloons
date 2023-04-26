@@ -5,7 +5,6 @@
 #include<cmath>
 #include<iostream>
 #include<chrono>
-#include<ratio>
 #include<vector>
 
 #include"includes/Dart.hpp"
@@ -18,10 +17,10 @@
 /// Tower polymorphism
 /// </summary>
 
-class Tower : public sf::RectangleShape
+class Tower : public SpriteManager
 {
 public:
-	Tower(sf::Vector2f pos, float xSize, float ySize);
+	Tower(sf::Vector2f pos, float xSize, float ySize, std::string filePath);
 
 	//Checks using distance formula which is totally no correct
 	//However gets an expected result
@@ -30,7 +29,7 @@ public:
 	//Draws the radius 
 	virtual void visualizeRadius(sf::RenderWindow  & window);
 
-	void update(float delta, sf::RenderWindow  & window);
+	virtual void update(float delta, sf::RenderWindow  & window);
 
 	void addBalloonToList(Balloon& balloon);
 
@@ -45,13 +44,12 @@ public:
 
 protected:
 
+	int b_xSize, b_ySize;
 	int m_delay;
 	int m_dartPower;
 	float m_Radius;
 
 	bool m_display;
-
-	sf::Vector2f m_pos;
 
 	void throwDart(Balloon& target);
 

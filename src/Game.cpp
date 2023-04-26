@@ -89,7 +89,7 @@ void Game::runGame(float delta)
 
 void Game::spawnTower(sf::Vector2f const & pos)
 {
-	Tower* t_tower = new Tower(pos, 100, 100);
+	Monkey* t_tower = new Monkey(pos, 2, 500);
 	m_TowerObjects.push_back(t_tower);
 }
 
@@ -97,7 +97,7 @@ void Game::runThroughTowers()
 {
 	for (Tower* t : m_TowerObjects)
 	{
-		if (t->getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(*m_Window))))
+		if (t->m_Object.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(*m_Window))))
 		{
 			t->setDisplayBool(true);
 		}

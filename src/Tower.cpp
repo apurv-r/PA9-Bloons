@@ -23,7 +23,8 @@ void Tower::update(float delta, sf::RenderWindow & window)
 		d->moveTowards(delta);
 		window.draw(*d);
 	}
-	window.draw(*this);
+	this->Render(window);
+	//window.draw(this->m_Object);
 }
 
 void Tower::addBalloonToList(Balloon& balloon)
@@ -31,12 +32,13 @@ void Tower::addBalloonToList(Balloon& balloon)
 	m_BalloonsInRange.push_back(&balloon);
 }
 
-Tower::Tower(sf::Vector2f pos, float xSize, float ySize)
-	:sf::RectangleShape(sf::Vector2f(xSize, ySize)), m_pos(pos)
+Tower::Tower(sf::Vector2f pos, float xSize, float ySize,std::string filePath)
+	:SpriteManager(filePath, pos)
 {
 	m_display = false;
-	this->setPosition(pos);
-	this->setFillColor(sf::Color(255, 0, 255));
+	b_xSize = xSize; b_ySize = ySize;
+	this->m_Object.setOrigin(xSize / 2, ySize / 2);
+	this->m_Object.setPosition(pos);
 	m_lastThrownDart = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch());
 }
 //Checks using distance formula which is totally no correct
@@ -45,7 +47,7 @@ bool Tower::isInRadius(sf::Vector2f otherPos, Balloon& b1)
 {
 	//Way to many )
 	//Math is now correct plus adds 10 pixels to make it seem more visually appealing
-	float distance = sqrt(abs((pow(((this->getPosition().x - (this->getSize().x / 2)) - (b1.getPos().x - b1.m_Object.getRadius() + 25)), 2) + (pow(((this->getPosition().y - (this->getSize().y / 2)) - (b1.getPos().y - b1.m_Object.getRadius() + 25)), 2)))));
+	float distance = sqrt(abs((pow((this->m_Object.getPosition().x - (b1.getPos().x)), 2) + (pow(((this->m_Object.getPosition().y) - (b1.getPos().y + 25)), 2)))));
 	//std::cout << "Distance: " << distance << std::endl;
 	if (distance < default_Radius)
 	{
@@ -59,8 +61,8 @@ bool Tower::isInRadius(sf::Vector2f otherPos, Balloon& b1)
 void Tower::visualizeRadius(sf::RenderWindow& window)
 {
 	sf::CircleShape radiusVisual(default_Radius, 30);
-	
-	radiusVisual.setPosition(this->getPosition().x - (default_Radius / 2) - (this->getSize().x / 2), (this->getPosition().y - (default_Radius / 2) - (this->getSize().y / 2)));
+	radiusVisual.setOrigin(sf::Vector2f(default_Radius - b_xSize/2, default_Radius - b_ySize/2));
+	radiusVisual.setPosition(this->m_Object.getPosition().x, (this->m_Object.getPosition().y));
 	radiusVisual.setFillColor(sf::Color(0, 100, 0));
 	window.draw(radiusVisual);
 }
@@ -79,7 +81,7 @@ void Tower::throwDart(Balloon& target)
 	//t_CurTime is going to be larger than m_lastThrownDart.
 	if ((t_CurTime.count() - m_lastThrownDart.count()) > 800)
 	{
-		Dart* newDart = new Dart(50, 50, 5, target, this->getPosition());
+		Dart* newDart = new Dart(50, 50, 5, target, this->m_Object.getPosition());
 		darts.push_back(newDart);
 		m_lastThrownDart = t_CurTime;
 	}
