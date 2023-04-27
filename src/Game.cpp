@@ -8,7 +8,7 @@ Game::Game(sf::RenderWindow& window, sf::Vector2f balloonSpawnLoc, sf::Font font
 	this->m_LevelDisplay.setString("Null");
 	m_LevelDisplay.setPosition(sf::Vector2f(1500, 0));
 	m_totalMoney = 100;
-	Monkey* m1 = new Monkey(sf::Vector2f(250, 300), 2,500);
+	BoomerangMonkey* m1 = new BoomerangMonkey(sf::Vector2f(250, 300), 100,2, 800);
 	m_TowerObjects.push_back(m1);
 	m_level = 0, m_lives = 200;
 	m_LastBalloonSpawn = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch());

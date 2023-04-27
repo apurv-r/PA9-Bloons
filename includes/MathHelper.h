@@ -2,6 +2,7 @@
 #define MATHHELP_H
 
 #include<cmath>
+#include<iostream>
 #include<SFML/System/Vector2.hpp>
 
 namespace MathHelper
@@ -41,6 +42,13 @@ namespace MathHelper
 		static float dot(const sf::Vector2f& v1, const sf::Vector2f& v2)
 		{
 			return ((v1.x * v2.x) + (v1.y * v2.y));
+		}
+
+		//finds next place to go in circle
+		static sf::Vector2f circleMath(const sf::Vector2f& v, float radius) {
+			sf::Vector2f b = sf::Vector2f((radius*sin(v.x*3.14/180)), (radius* cos(v.y*3.14/180)));
+			std::cout << b.x << "   " << b.y << std::endl;
+			return b;
 		}
 	};
 }

@@ -8,6 +8,7 @@
 #include<fstream>
 
 #include"includes/Ballon.hpp"
+#include"includes/BoomerangMonkey.hpp"
 #include"includes/Monkey.hpp"
 
 class Game

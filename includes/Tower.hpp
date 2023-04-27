@@ -53,7 +53,7 @@ protected:
 
 	sf::Vector2f m_LastBalloonPos;
 
-	void throwDart(Balloon& target);
+	virtual void throwDart(Balloon& target);
 
 	std::vector<Dart*> darts;
 	std::chrono::milliseconds m_lastThrownDart;

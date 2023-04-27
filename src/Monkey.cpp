@@ -51,9 +51,9 @@ void Monkey::update(float delta, sf::RenderWindow& window)
 	//Rotate towards target
 	if (m_BalloonsInRange.size() >0)
 	{
-		float angle = 180 /3.14* MathHelper::MathHelp::dot(MathHelper::MathHelp::normalize(this->m_Object.getPosition()), MathHelper::MathHelp::normalize(this->m_LastBalloonPos));
-		std::cout << angle << std::endl;
-		this->m_Object.setRotation(angle);
+		double angle = std::atan2(this->m_Object.getPosition().y + this->m_BalloonsInRange[0]->getPos().y,this->m_Object.getPosition().x + this->m_BalloonsInRange[0]->getPos().x);
+		std::cout << angle*180/3.14 << std::endl;
+		this->m_Object.setRotation(angle*180/3.14);
 	}
 	this->Render(window);
 	//window.draw(this->m_Object);
