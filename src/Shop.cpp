@@ -1,3 +1,4 @@
+
 #include "includes/Shop.hpp"
 
 Shop::Shop(Game& game, sf::Font *font)

@@ -1,10 +1,11 @@
-#include<SFML/Graphics.hpp>
-//#include<SFML/OpenGL.hpp>
-#include<iostream>
-#include<fstream>
 
-#include"includes/Game.hpp"
-#include"includes/Shop.hpp"
+#include<./SFML/Graphics.hpp>
+//#include<SFML/OpenGL.hpp>
+#include<./iostream>
+#include<./fstream>
+
+#include"./includes/Game.hpp"
+#include"./includes/Shop.hpp"
 
 
 void l_handleMouseinput(Shop& shop, Game& game, sf::RenderWindow& window);

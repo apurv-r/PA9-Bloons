@@ -1,5 +1,4 @@
-#ifndef GAME_HEADER_CLASS
-#define GAME_HEADER_CLASS
+#pragma once
 
 #include<SFML/Graphics.hpp>
 #include<vector>
@@ -67,4 +66,3 @@ private:
 	sf::Text m_LevelDisplay;
 };
 
-#endif

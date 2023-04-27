@@ -1,14 +1,16 @@
 #pragma once
 #include"includes/Tower.hpp"
+#include"includes/Boomerang.hpp"
 #include<string>
 #define monkeySpritePath "Resources/testingImage.jpg"
 
-class Monkey :public Tower
+class BoomerangMonkey :public Tower
 {
 public:
-	Monkey(sf::Vector2f pos, int power = default_DartPower, int delay = default_Delay, int radius = default_Radius)
+	BoomerangMonkey(sf::Vector2f pos, float boomerang_radius, int power = default_DartPower, int delay = default_Delay, int radius = default_Radius)
 		:Tower(pos, m_Xsize, m_YSize, monkeySpritePath)
 	{
+		this->m_boomerang_radius = boomerang_radius;
 		this->m_delay = delay;
 		this->m_dartPower = power;
 		this->m_Radius = (float)radius;
@@ -22,8 +24,13 @@ public:
 
 	virtual void update(float delta, sf::RenderWindow& window);
 
+	void throwDart();
+
+protected:
+	std::vector<Boomerang*> boomerangs;
 private:
 	const std::string m_SpritePath = "Resources/testingImage.jpg";
 	const float m_Xsize = 100;
 	float const m_YSize = 100;
+	float m_boomerang_radius = 150;
 };

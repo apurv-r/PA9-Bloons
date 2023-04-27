@@ -1,3 +1,4 @@
+
 #include "includes/Game.hpp"
 
 Game::Game(sf::RenderWindow& window, sf::Vector2f balloonSpawnLoc, sf::Font font) :m_Window(&window), m_BalloonSpawnLoc(balloonSpawnLoc)

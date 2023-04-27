@@ -1,5 +1,4 @@
-#ifndef	SHOP_HEADER_CLASS
-#define SHOP_HEADER_CLASS
+#pragma once
 
 #include<iostream>
 #include<vector>
@@ -38,5 +37,3 @@ private:
 	bool activeItem;
 	std::chrono::milliseconds m_lastPurchase;
 };
-
-#endif

@@ -37,6 +37,11 @@ namespace MathHelper
 			}
 			return false;
 		}
+		//finds next place to go in circle
+		static sf::Vector2f circleMath(const sf::Vector2f& v, float radius){
+		
+			return sf::Vector2f((radius + radius * sin(v.x)), (radius + radius * sin(v.y)));
+		}
 	};
 }
 
