@@ -1,7 +1,7 @@
 # PA9-Bloons
 
 Group Members
-- Aidan
+- Aidan Covey
 - Apurv
 - Asaf
 - Gabe

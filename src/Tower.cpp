@@ -28,7 +28,7 @@ void Tower::update(float delta, sf::RenderWindow & window)
 		d->moveTowards(delta);
 		window.draw(*d);
 		std::chrono::milliseconds t_CurTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch());
-		if ((t_CurTime.count() - d->getTimeCreated().count()) > 1500)
+		if ((t_CurTime.count() - d->getTimeCreated().count()) > 1000)
 		{
 			Dart* pTemp = d;
 			darts.erase(darts.begin() + i);
@@ -75,7 +75,7 @@ void Tower::visualizeRadius(sf::RenderWindow& window)
 	sf::CircleShape radiusVisual(default_Radius, 30);
 	radiusVisual.setOrigin(sf::Vector2f(default_Radius - b_xSize/2, default_Radius - b_ySize/2));
 	radiusVisual.setPosition(this->getPosition().x, (this->getPosition().y));
-	radiusVisual.setFillColor(sf::Color(0, 100, 0));
+	radiusVisual.setFillColor(sf::Color(0, 100, 0,25));
 	window.draw(radiusVisual);
 }
 

@@ -7,10 +7,25 @@ Game::Game(sf::RenderWindow& window, sf::Vector2f balloonSpawnLoc, sf::Font font
 	//command line directive.
 	//Just gives the version of complier. I.e. the value for the iso version
 	//After more research _MSVC_LANG also works but is not universal
+	//__cplusplus is standard
 #if __cplusplus == 201703
 	//Needs to be run in c++17 to have access to std::filesystem::directory_iterator
 	std::string path = "CustomMaps/";
 	std::vector<std::string> paths;
+	std::cout << "Possible Maps:" << std::endl;
+	//Code from by https://stackoverflow.com/a/612176
+	for (const auto& entry : std::filesystem::directory_iterator(path))
+	{
+		paths.push_back(entry.path().string());
+		std::cout << entry.path() << std::endl;
+	}
+	m_coords = gen.loadMapRandom(paths);
+	//_MSVC_LANG is language specific
+#elif _MSVC_LANG == 201703L
+	//Needs to be run in c++17 to have access to std::filesystem::directory_iterator
+	std::string path = "CustomMaps/";
+	std::vector<std::string> paths;
+	std::cout << "Possible Maps:" << std::endl;
 	//Code from by https://stackoverflow.com/a/612176
 	for (const auto& entry : std::filesystem::directory_iterator(path))
 	{
@@ -20,7 +35,7 @@ Game::Game(sf::RenderWindow& window, sf::Vector2f balloonSpawnLoc, sf::Font font
 	m_coords = gen.loadMapRandom(paths);
 #else 
 	//Map must be declared
-	m_coords = gen.loadMap("CustomMaps/map-eSmVf.txt");
+	m_coords = gen.loadMapSpecific("CustomMaps/map-eSmVf.txt");
 #endif
 	loadInvsibleMarkers();
 	m_LevelDisplay.setFont(font);
@@ -76,6 +91,8 @@ void Game::runGame(float delta)
 	}
 
 	int l_balloonLoc = 0;
+	//Access Error every 1 in 50 times I run it. I have no idea what causes it.
+	//Hopefully does not show up in Andys testing of our code.
 	for (Balloon* l_balloon : m_BalloonObjects)
 	{
 		//Better to go first because it can be removed if not valid
@@ -85,6 +102,13 @@ void Game::runGame(float delta)
 			for (Tower* l_tower : m_TowerObjects)
 			{
 				l_tower->isInRadius(l_balloon->getPos(), *l_balloon);
+			}
+			if (l_balloon->isAtEnd())
+			{
+				m_lives -= l_balloon->getHealth();
+				Balloon* pTemp = m_BalloonObjects.at(l_balloonLoc);
+				m_BalloonObjects.erase(m_BalloonObjects.begin() + l_balloonLoc);
+				delete pTemp;
 			}
 		}
 		else

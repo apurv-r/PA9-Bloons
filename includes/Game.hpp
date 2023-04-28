@@ -7,8 +7,11 @@
 #include<chrono>
 #include<fstream>
 
-#if __cplusplus ==201703
-#include <filesystem>
+//Only includes is complied in c++17
+#if __cplusplus == 201703
+	#include <filesystem>
+#elif _MSVC_LANG == 201703
+	#include <filesystem>
 #endif
 
 #include"includes/Ballon.hpp"

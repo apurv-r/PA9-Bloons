@@ -13,6 +13,7 @@ public:
 		m_health = level;
 		m_InitialHealth = level;
 		coords = inputted_coords;
+		atEnd = false;
 	};
 	void update(float delta, sf::RenderWindow& window);
 
@@ -20,8 +21,9 @@ public:
 	int getHealth() { return m_health; }
 	int getInitHealth() { return m_InitialHealth; }
 	void changeHealth(int change) { m_health -= change; };
+	bool isAtEnd() { return atEnd; };
 private:
-
+	bool atEnd;
 	float m_speed;
 	int m_health;
 	int m_InitialHealth;

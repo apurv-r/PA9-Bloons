@@ -23,7 +23,7 @@ void Monkey::visualizeRadius(sf::RenderWindow& window)
 	radiusVisual.setOrigin(sf::Vector2f(m_Radius, m_Radius));
 	//std::cout << this->getPosition().x << "   " << this->getPosition().y << std::endl;
 	radiusVisual.setPosition(this->getPosition().x, (this->getPosition().y));
-	radiusVisual.setFillColor(sf::Color(0, 100, 0));
+	radiusVisual.setFillColor(sf::Color(50, 50, 50,100));
 	window.draw(radiusVisual);
 }
 

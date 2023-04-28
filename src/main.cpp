@@ -20,6 +20,9 @@ int main()
 	float direction = .1;
 
 	sf::RenderWindow window(sf::VideoMode(windowX, windowY), "SFML works!");
+
+	MathHelper::MathHelp testMath;
+	testMath.runTest();
 	
 	//Textures Work now
 	std::string s1 = "Resources/testingImage.jpg";
@@ -48,7 +51,7 @@ int main()
 	sf::RectangleShape monkey(sf::Vector2f(100, 200));
 	monkey.setPosition(1750, 50);
 	monkey.setFillColor(sf::Color(32,178, 170));*/
-	
+
 	//When implementing map generation to the main menu
 	//The only thing that needs to happen is that the mapGen
 	//run function should be called. Then once that is exited 
@@ -134,7 +137,8 @@ int main()
 
 			//Map Generation looks bad at times because of a issue with how the coords are generated
 			//With the last 2 and the first 2 being seperated by 200 pixels instead of 100
-			window.clear();
+			//Example Background color Should be changed
+			window.clear(sf::Color(60,179,113));
 			if (!pause.isScreenPaused())
 			{
 				game.runGame(delta);
@@ -146,6 +150,11 @@ int main()
 
 			pause.update(window);
 			window.display();
+		}
+		else
+		{
+			//Should be changed to some loss screen.
+			window.close();
 		}
 	}
 

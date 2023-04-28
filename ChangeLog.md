@@ -7,6 +7,24 @@ Base class Tower now includes functions that can be used to create upgrades.
 Now it derives from sf::RectangleShape
 ### Tower Placement
 Now you have to place the tower outside of the bounds of the Track.
+### Game + Map
+Map can be randomly selected or set to some preset File. The process for this randomly selected first checks the version of the language using a if statment
+```c++
+#if __cplusplus == 201703
+#elif _MSVC_LANG == 201703L
+```
+The first if statement uses the c++ standard of 
+```c++
+__cplusplus
+```
+but it needs to be declared in the command line for Visual Studio as 
+```c++
+/Zc:__cplusplus
+```
+To do this open the property pages then go to C/C++ and go to Command line and add that line in the Additional options. The other if statement for MSVC_LANG is MSVC complier specific and wont work with other compliers. However this will also return the version of C++ that you are compiling into. The need for these is because of the library \<filesystem>. Inside of filesystem is the function firectory_iterator, where you pass a path into and it will iterate through finding all the entries inside of that path. This allows us to get all of the files inside of the CustomMaps folder. Otherwise if those do not pass then you just load a basemap that you know is there.
+## MathHelp
+Added simple test cases to make sure the math algorithms are all correct.
+
 ## 4/24/2023 
 ### Window:
 Expanded the size of the window to 2000x2000 subject to change.

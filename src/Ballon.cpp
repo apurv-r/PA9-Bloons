@@ -8,9 +8,13 @@ void Balloon::update(float delta, sf::RenderWindow& window)
 		moveTowards(coords[coordIndex], m_speed*delta);
 		if (MathHelper::MathHelp::isAround(this->getPos(), coords[coordIndex], 10))
 		{
-			std::cout << "HERE" << std::endl;
+			if (coordIndex == coords.size() - 1)
+			{
+				atEnd = true;
+			}
 			coordIndex++;
 		}
+		//window.draw(*this);
 		Render(window);
 	}
 	else
