@@ -7,7 +7,7 @@
 class Balloon : public SpriteManager
 {
 public:
-	Balloon(int level, sf::Vector2f pos) :SpriteManager("Resources/testingImage.jpg", pos) 
+	Balloon(int level, sf::Vector2f pos) :SpriteManager("Resources/testingImage.jpg", pos, sf::Vector2f(100,100)) 
 	{
 		m_speed = 2;
 		m_health = level;

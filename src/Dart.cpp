@@ -19,7 +19,7 @@ void Dart::moveTowards(float delta)
 
 bool Dart::isCollided()
 {
-	if (this->getGlobalBounds().intersects(m_target->m_Object.getGlobalBounds()))
+	if (this->getGlobalBounds().intersects(m_target->getGlobalBounds()))
 		return true;
 	else
 		return false;

@@ -18,7 +18,7 @@ void Balloon::update(float delta, sf::RenderWindow& window)
 		//Should never be called here just incase
 		//delete this is not possible for memory reasons.
 		//Big crash happens if you use delete this
-		this->m_Object.setPosition(1000, 10000);
+		this->setPosition(1000, 10000);
 	}
 }
 
@@ -31,5 +31,5 @@ void Balloon::moveTowards(sf::Vector2f goToVector, float speed)
 	sf::Vector2f dir = (-1.0f*MathHelper::MathHelp::normalize((this->getPos() - goToVector)));
 
 	//Calls the sf move function using the values already given
-	this->m_Object.move(speed * dir);
+	this->move(speed * dir);
 }
