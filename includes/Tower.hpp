@@ -37,6 +37,10 @@ public:
 
 	void setDisplayBool(bool newDisplay) { m_display = newDisplay; };
 
+	void increaseRadius(float radiusIncrease) { m_Radius += radiusIncrease; };
+	void decreaseDelay(int delayDecrease) { m_Radius -= delayDecrease; };
+	void increasePower(float dartPowerIncrease) { m_Radius += dartPowerIncrease; };
+
 	//Public so that they can be used as default values in function declarations
 	static const int default_Delay = 800;
 	static const int default_DartPower = 1;

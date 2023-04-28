@@ -7,12 +7,17 @@ Dart::Dart(float sizeX, float sizeY, float speed, Balloon& target, sf::Vector2f 
 	this->setPosition(spawnLocation);
 	m_speed = speed;
 	m_target = &target;
+	m_FirstCalc = true;
 }
 
 void Dart::moveTowards(float delta)
 {
 	//The math works for some reason
-	sf::Vector2f dir = (-1.0f * MathHelper::MathHelp::normalize((this->getPosition() - m_target->getPos())));
+	if (m_FirstCalc)
+	{
+		dir = (-1.0f * MathHelper::MathHelp::normalize((this->getPosition() - m_target->getPos())));
+		m_FirstCalc = false;
+	}
 	//std::cout << "X: " << dir.x << " Y: " << dir.y << std::endl;
 	this->move(m_speed * dir*delta);
 }

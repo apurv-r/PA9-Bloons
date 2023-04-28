@@ -1,3 +1,12 @@
+## 4/27/2023
+### Map Integration
+map is now integrated. Some visual issue occur because of how it is generated, with a gap between the first 2 and last 2 being 200 pixels instead of 100 pixels. Minor issue just needs a good solution for it.
+### Upgrades can now theoretically exist
+Base class Tower now includes functions that can be used to create upgrades.
+### Sprite Manager 
+Now it derives from sf::RectangleShape
+### Tower Placement
+Now you have to place the tower outside of the bounds of the Track.
 ## 4/24/2023 
 ### Window:
 Expanded the size of the window to 2000x2000 subject to change.

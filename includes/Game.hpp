@@ -7,14 +7,19 @@
 #include<chrono>
 #include<fstream>
 
+#if __cplusplus ==201703
+#include <filesystem>
+#endif
+
 #include"includes/Ballon.hpp"
 #include"includes/BoomerangMonkey.hpp"
 #include"includes/Monkey.hpp"
+#include"includes/mapGen.hpp"
 
 class Game
 {
 public:
-	Game(sf::RenderWindow& window, sf::Vector2f balloonSpawnLoc, sf::Font font);
+	Game(sf::RenderWindow& window, sf::Vector2f balloonSpawnLoc, sf::Font font, mapGen& gen);
 
 	~Game();
 
@@ -36,9 +41,17 @@ public:
 
 	int getLevel() { return this->m_level; };
 
+	std::vector<sf::RectangleShape> getMarkers() { return m_invisbleMarkers; };
+
 private:
 	void renderText(sf::RenderWindow& window,std::string msg);
 	void readBalloonFile(std::string filePath);
+
+	void loadInvsibleMarkers();
+
+	std::vector<sf::RectangleShape> m_invisbleMarkers;
+
+	std::vector<sf::Vector2f> m_coords;
 
 	struct Level
 	{

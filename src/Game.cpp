@@ -1,14 +1,34 @@
 #include "includes/Game.hpp"
 
-Game::Game(sf::RenderWindow& window, sf::Vector2f balloonSpawnLoc, sf::Font font) :m_Window(&window), m_BalloonSpawnLoc(balloonSpawnLoc)
+Game::Game(sf::RenderWindow& window, sf::Vector2f balloonSpawnLoc, sf::Font font, mapGen& gen) :m_Window(&window), m_BalloonSpawnLoc(balloonSpawnLoc)
 {
 	srand(time(NULL));
+	//__cplusplus has to be enabled by the /Zc:__cplusplus
+	//command line directive.
+	//Just gives the version of complier. I.e. the value for the iso version
+	//After more research _MSVC_LANG also works but is not universal
+#if __cplusplus == 201703
+	//Needs to be run in c++17 to have access to std::filesystem::directory_iterator
+	std::string path = "CustomMaps/";
+	std::vector<std::string> paths;
+	//Code from by https://stackoverflow.com/a/612176
+	for (const auto& entry : std::filesystem::directory_iterator(path))
+	{
+		paths.push_back(entry.path().string());
+		std::cout << entry.path() << std::endl;
+	}
+	m_coords = gen.loadMapRandom(paths);
+#else 
+	//Map must be declared
+	m_coords = gen.loadMap("CustomMaps/map-eSmVf.txt");
+#endif
+	loadInvsibleMarkers();
 	m_LevelDisplay.setFont(font);
 	m_LevelDisplay.setFillColor(sf::Color::Red);
 	this->m_LevelDisplay.setString("Null");
 	m_LevelDisplay.setPosition(sf::Vector2f(1500, 0));
 	m_totalMoney = 100;
-	Monkey* m1 = new Monkey(sf::Vector2f(250, 300));
+	Monkey* m1 = new Monkey(sf::Vector2f(300, 250), 2,800,300);
 	m_TowerObjects.push_back(m1);
 	m_level = 0, m_lives = 200;
 	m_LastBalloonSpawn = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch());
@@ -40,9 +60,13 @@ void Game::runGame(float delta)
 	//std::cout << (t_CurTime.count() - m_LastBalloonSpawn.count()) << std::endl;
 	if ((t_CurTime.count() - m_LastBalloonSpawn.count()) > m_Levels[m_levelInstance]->delay)
 	{
-		m_BalloonObjects.push_back(new Balloon(rand() % m_Levels[m_levelInstance]->maxLevel + 1	, m_BalloonSpawnLoc));
+		m_BalloonObjects.push_back(new Balloon(rand() % m_Levels[m_levelInstance]->maxLevel + 1	, m_BalloonSpawnLoc, m_coords));
 		m_LastBalloonSpawn = t_CurTime;
 		this->m_balloonsSpawned++;
+	}
+	for (sf::RectangleShape rect : m_invisbleMarkers)
+	{
+		m_Window->draw(rect);
 	}
 	
 	//Should not be dependent on the balloons being spawned
@@ -143,4 +167,20 @@ void Game::readBalloonFile(std::string filePath)
 		tLevel->delay= atof(data[2].c_str());
 		m_Levels.push_back(tLevel);
 	}
+}
+
+void Game::loadInvsibleMarkers()
+{
+	for (sf::Vector2f v : m_coords)
+	{
+		//Size is bigger because of how the coords are generated in the map code
+		//Between the first and second and the last two coords a gap exists that isn't
+		//spanned by 100 pixels its larger so the size of the track has to increase in response
+		sf::RectangleShape* t_Shape = new sf::RectangleShape(sf::Vector2f(200, 120));
+		t_Shape->setOrigin(sf::Vector2f(85, 60));
+		t_Shape->setPosition(v);
+		t_Shape->setFillColor(sf::Color(181,101,29));
+		m_invisbleMarkers.push_back(*t_Shape);
+	}
+
 }

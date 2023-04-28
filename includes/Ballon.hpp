@@ -7,13 +7,12 @@
 class Balloon : public SpriteManager
 {
 public:
-	Balloon(int level, sf::Vector2f pos) :SpriteManager("Resources/testingImage.jpg", pos, sf::Vector2f(100,100)) 
+	Balloon(int level, sf::Vector2f pos, std::vector<sf::Vector2f> inputted_coords) :SpriteManager("Resources/testingImage.jpg", pos, sf::Vector2f(100,100))
 	{
 		m_speed = 2;
 		m_health = level;
 		m_InitialHealth = level;
-		coords.push_back(sf::Vector2f(1500, 500));
-		coords.push_back(sf::Vector2f(500, 1500));
+		coords = inputted_coords;
 	};
 	void update(float delta, sf::RenderWindow& window);
 

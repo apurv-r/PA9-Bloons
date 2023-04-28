@@ -25,5 +25,7 @@ public:
 private:
 	std::chrono::milliseconds m_timeCreated;
 	Balloon *m_target;
+	bool m_FirstCalc;
+	sf::Vector2f dir;
 	float m_speed;
 };

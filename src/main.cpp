@@ -2,6 +2,7 @@
 //#include<SFML/OpenGL.hpp>
 #include<iostream>
 #include<fstream>
+#include <string>
 
 #include"includes/Game.hpp"
 #include"includes/pauseMenu.hpp"
@@ -47,8 +48,14 @@ int main()
 	sf::RectangleShape monkey(sf::Vector2f(100, 200));
 	monkey.setPosition(1750, 50);
 	monkey.setFillColor(sf::Color(32,178, 170));*/
+	
+	//When implementing map generation to the main menu
+	//The only thing that needs to happen is that the mapGen
+	//run function should be called. Then once that is exited 
+	//you can continue.
+	mapGen gen;
 
-	Game game(window, sf::Vector2f(-100, 500),font); 
+	Game game(window, sf::Vector2f(-100, 500),font,gen); 
 	Shop shop(game, &font);
 	PauseMenu pause(window);
 
@@ -59,7 +66,7 @@ int main()
 
 	while (window.isOpen())
 	{
-		if(game.getLives() > 0)
+		if (game.getLives() > 0)
 		{
 			delta = clock.restart().asSeconds() * 60;
 			livesText.setString(std::string("Lives:" + std::to_string(game.getLives())));
@@ -97,7 +104,36 @@ int main()
 			{
 				std::cout << "Pause time" << std::endl;
 			}
+			//Bad example code because it breaks but this is essentially what should happen
+			//When trying to run the map generator
+			/*
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::T))
+			{
+				gen.run(window);
+			}
+			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+			{
+				window.clear();
+				if (!pause.isScreenPaused())
+				{
+					game.runGame(delta);
+					shop.update(window);
+					window.draw(m_sprite);
+					window.draw(livesText);
+					window.draw(levelText);
+				}
 
+				pause.update(window);
+				window.display();
+			}
+			else
+			{
+				window.clear(sf::Color::Magenta);
+				window.display();
+			}*/
+
+			//Map Generation looks bad at times because of a issue with how the coords are generated
+			//With the last 2 and the first 2 being seperated by 200 pixels instead of 100
 			window.clear();
 			if (!pause.isScreenPaused())
 			{

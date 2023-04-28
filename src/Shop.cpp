@@ -46,8 +46,21 @@ void Shop::handleMouseInput(sf::RenderWindow& window)
 	{
 		//Will check if Active
 		const sf::Vector2f pos = sf::Vector2f(sf::Mouse::getPosition(window));
-		this->m_game->spawnTower(pos);
-		activeItem = false;
+		bool isContained = false;
+		for (sf::RectangleShape marker : this->m_game->getMarkers())
+		{
+			//Have to check all 4 corners
+			if (marker.getGlobalBounds().contains(pos+sf::Vector2f(50,50))|| marker.getGlobalBounds().contains(pos + sf::Vector2f(-50, -50))|| marker.getGlobalBounds().contains(pos + sf::Vector2f(50, -50))|| marker.getGlobalBounds().contains(pos + sf::Vector2f(-50, 50)))
+			{
+				std::cout << "Cannot Place here" << std::endl;
+				isContained = true;
+			}
+		}
+		if (!isContained)
+		{
+			this->m_game->spawnTower(pos);
+			activeItem = false;
+		}
 	}
 	else
 	{
@@ -56,18 +69,21 @@ void Shop::handleMouseInput(sf::RenderWindow& window)
 		{
 			//Add logic as if can you buy
 			std::chrono::milliseconds curTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch());
-			std::cout << "Time dif: " << (curTime.count() - m_lastPurchase.count()) << std::endl;
+		//	std::cout << "Time dif: " << (curTime.count() - m_lastPurchase.count()) << std::endl;
 			if (m_game->getMoney() >= 100 && (curTime.count() - m_lastPurchase.count()) > 1000)
 			{
 				this->activeItem = true;
 				this->m_texture.loadFromFile("Resources/testingImage.jpg");
 				this->m_TowerToPlace.setTexture(&this->m_texture);
+				//Breaks every so often I dont know why
+				this->m_TowerToPlace.setOrigin(50, 50);
 				this->m_TowerToPlace.setPosition(sf::Vector2f(sf::Mouse::getPosition(window)));
 				this->m_TowerToPlace.setSize(sf::Vector2f(100, 100));
 				m_lastPurchase = curTime;
 				m_game->subtractMoney(100);
 			}
-			else if (!((curTime.count() - m_lastPurchase.count()) > 1000) && m_game->getMoney() >= 100)
+			//Still here just incase something odd comes up
+			/*else if (!((curTime.count() - m_lastPurchase.count()) > 1000) && m_game->getMoney() >= 100)
 			{
 				this->activeItem = true;
 				this->m_texture.loadFromFile("Resources/testingImage.jpg");
@@ -75,7 +91,7 @@ void Shop::handleMouseInput(sf::RenderWindow& window)
 				this->m_TowerToPlace.setPosition(sf::Vector2f(sf::Mouse::getPosition(window)));
 				this->m_TowerToPlace.setSize(sf::Vector2f(100, 100));
 				std::cout << "Pressed to Quickly Try again in a bit" << std::endl;
-			}
+			}*/
 			else
 			{
 				std::cout << "insuficient funds" << std::endl;
