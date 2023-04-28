@@ -1,6 +1,6 @@
 #include "includes/Game.hpp"
 
-Game::Game(sf::RenderWindow& window, sf::Vector2f balloonSpawnLoc, sf::Font font) :m_Window(&window), m_BalloonSpawnLoc(balloonSpawnLoc)
+Game::Game(sf::RenderWindow& window, sf::Vector2f balloonSpawnLoc, sf::Font font, std::vector<sf::Vector2f> coords) :m_Window(&window), m_BalloonSpawnLoc(balloonSpawnLoc), m_coords(coords)
 {
 	srand(time(NULL));
 	m_LevelDisplay.setFont(font);
@@ -40,7 +40,7 @@ void Game::runGame(float delta)
 	//std::cout << (t_CurTime.count() - m_LastBalloonSpawn.count()) << std::endl;
 	if ((t_CurTime.count() - m_LastBalloonSpawn.count()) > m_Levels[m_levelInstance]->delay)
 	{
-		m_BalloonObjects.push_back(new Balloon(rand() % m_Levels[m_levelInstance]->maxLevel + 1	, m_BalloonSpawnLoc));
+		m_BalloonObjects.push_back(new Balloon(rand() % m_Levels[m_levelInstance]->maxLevel + 1	, m_BalloonSpawnLoc, m_coords));
 		m_LastBalloonSpawn = t_CurTime;
 		this->m_balloonsSpawned++;
 	}

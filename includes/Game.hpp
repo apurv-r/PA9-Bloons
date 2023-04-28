@@ -14,7 +14,7 @@
 class Game
 {
 public:
-	Game(sf::RenderWindow& window, sf::Vector2f balloonSpawnLoc, sf::Font font);
+	Game(sf::RenderWindow& window, sf::Vector2f balloonSpawnLoc, sf::Font font, std::vector<sf::Vector2f> coords);
 
 	~Game();
 
@@ -66,6 +66,8 @@ private:
 	std::vector<Balloon*> m_BalloonObjects;
 
 	sf::Text m_LevelDisplay;
+
+	std::vector<sf::Vector2f> m_coords;
 };
 
 #endif

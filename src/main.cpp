@@ -2,7 +2,7 @@
 //#include<SFML/OpenGL.hpp>
 #include<iostream>
 #include<fstream>
-
+#include<sstream>
 #include"includes/Game.hpp"
 #include"includes/pauseMenu.hpp"
 #include"includes/Shop.hpp"
@@ -12,7 +12,7 @@ void l_handleMouseinput(Shop& shop, Game& game, sf::RenderWindow& window);
 
 
 
-int main()
+int _main()
 {
 	int windowX = 2000;
 	int windowY = 2000;
@@ -48,7 +48,43 @@ int main()
 	monkey.setPosition(1750, 50);
 	monkey.setFillColor(sf::Color(32,178, 170));*/
 
-	Game game(window, sf::Vector2f(-100, 500),font); 
+	std::vector<sf::Vector2f> coords;
+
+	std::ifstream infile("CustomMaps/map-6XGNK.txt");
+	// Read the map name and discard it
+	std::string line;
+	std::getline(infile, line);
+	std::getline(infile, line);
+	std::getline(infile, line);
+
+	// Reading in collision grid
+	char collisionGrid[10][10];
+	int rowCount = 0;
+
+	for (int i = 0; i < 10; i++) {
+		std::getline(infile, line);
+		for (int col = 0; col < line.size(); ++col) {
+			collisionGrid[rowCount][col] = line[col];
+		}
+		rowCount++;
+	}
+
+	// reading in space
+	std::getline(infile, line);
+
+	// Read each line of coordinates and extract them into a vector
+	while (std::getline(infile, line)) {
+		// split the line by commas
+		std::istringstream s(line);
+		std::string field;
+		std::getline(s, field, ',');
+		int x = std::stoi(field);
+		std::getline(s, field, ',');
+		int y = std::stoi(field);
+		coords.push_back(sf::Vector2f(x, y));
+	}
+
+	Game game(window, sf::Vector2f(-100, 500),font, coords);
 	Shop shop(game, &font);
 	PauseMenu pause(window);
 
